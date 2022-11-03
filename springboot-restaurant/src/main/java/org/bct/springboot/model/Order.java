@@ -1,16 +1,26 @@
 package org.bct.springboot.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@SuppressWarnings("serial")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name="orders")
-public class Order {
+public class Order implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long orderId;
@@ -24,6 +34,13 @@ public class Order {
 	
 	@Column(name="end_date")
 	private LocalDateTime endTime = LocalDateTime.now();
+	
+	@Column(name="price")
+	private double price;
+	
+	@OneToMany(mappedBy="order", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Item> items;
+	
 	
 	//Default Constructor
 	public Order() {
