@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name="orders")
 public class Order implements Serializable{
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long orderId;
 	
 	@Column(name="order_name")
@@ -30,7 +31,7 @@ public class Order implements Serializable{
 	
 	@Column(name="start_date")
 	private LocalDateTime startTime = LocalDateTime.now();
-	
+	 
 	
 	@Column(name="end_date")
 	private LocalDateTime endTime = LocalDateTime.now();
@@ -42,6 +43,9 @@ public class Order implements Serializable{
 	private Set<Item> items;
 	
 	
+	@OneToOne(mappedBy="order", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private Payment payments;
+		
 	//Default Constructor
 	public Order() {
 		super();

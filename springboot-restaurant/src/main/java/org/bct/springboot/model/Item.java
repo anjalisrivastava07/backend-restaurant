@@ -30,7 +30,7 @@ public class Item implements Serializable{
 	private Double itemPrice;
 	
 	@ManyToOne(fetch=FetchType.LAZY, optional=false)
-	@JoinColumn(name="order_id",nullable=false)
+	@JoinColumn(name="order_id")
 	private Order order;
 
 	//parameterized constructor
